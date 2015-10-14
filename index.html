@@ -3,7 +3,7 @@
 <body>
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://d3js.org/topojson.v1.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="datamaps.world.min.js"></script>
 
@@ -22,8 +22,9 @@
       var map = new Datamap({
         scope: 'world',
         element: document.getElementById('mapContainer'),
+	responsive: true,
         projection: 'mercator',
-        height: 700,
+        height: 500,
         fills: {
           defaultFill: '#d3d3d3',
           visited: 'green',
@@ -33,13 +34,19 @@
         data: {
           	IND : {fillKey: 'lived' }
         }
-      })
+      });
+
+	window.addEventListener('resize', function() {
+	        map.resize();
+	    });
       
       map.legend();
 
       var special_data = {};
       special_data[1987] = { IND: {fillKey: 'lived'} }
       special_data[2002] = { NPL: {fillKey: 'visited'} }
+      special_data[3333] = { USA: {fillKey: 'visited'} }
+      special_data[2005] = $.extend(special_data[3333], special_data[2002]);
       special_data[2009] = { SGP: {fillKey: 'visited'}, MYS: {fillKey: 'visited'}, HKG: {fillKey: 'visited'}, LAO: {fillKey: 'visited'}, MAC: {fillKey: 'visited'} }
       special_data[2010] = { THA: {fillKey: 'visited'}, KHM: {fillKey: 'visited'} }
       special_data[2011] = { FIN: {fillKey: 'lived'}, EST: {fillKey: 'visited'}, ESP: {fillKey: 'visited'}, PRT: {fillKey: 'visited'} }
@@ -69,6 +76,8 @@
              map.updateChoropleth(special_data[1987]);
          } else if (data.value == 2002) {
              map.updateChoropleth(special_data[2002]);
+         } else if (data.value == 2005) {
+             map.updateChoropleth(special_data[2005]);
          } else if (data.value == 2009) {
              map.updateChoropleth(special_data[2009]);
          } else if (data.value == 2010) {
