@@ -4,16 +4,19 @@
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://d3js.org/topojson.v1.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="datamaps.world.min.js"></script>
 
-  <script src="simple-slider.min.js"></script>
+  <script src="simple-slider.js"></script>
   <link href="simple-slider.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-  <h2>Range</h2>
-  <input id="slider" type="text" data-slider="true" data-slider-step="1" data-slider-range="1987,2015">
-  <div id="mapContainer" style="position: relative; width: 80%; max-height: 450px;"></div>
+  <div class="container">
+  	<h2>My Travel Map</h2>
+  	<input id="slider" type="text" data-slider="true" data-slider-step="1" data-slider-range="1987,2015" data-slider-snap="true" data-slider-highlight="true">
+  	<div id="mapContainer" style="position: relative; width: 80%; max-height: 450px;"></div>
+  </div>
  
-     
      <script>
       //basic map config with custom fills, mercator projection
       var map = new Datamap({
@@ -23,51 +26,27 @@
         height: 700,
         fills: {
           defaultFill: '#d3d3d3',
-          c2: 'green',
-          c1: 'blue'
+          visited: 'green',
+          lived: 'blue'
         },
         
         data: {
-          	IND : {fillKey: 'c1', year:  1987 }, 
-		NPL : {fillKey: 'c2', year:  2002 }, 
-		SGP : {fillKey: 'c1', year:  2009 }, 
-		MYS : {fillKey: 'c2', year:  2009 }, 
-		HKG : {fillKey: 'c2', year:  2009 }, 
-		LAO : {fillKey: 'c2', year:  2009 }, 
-		MAC : {fillKey: 'c2', year:  2009 }, 
-		THA : {fillKey: 'c2', year:  2010 }, 
-		KHM : {fillKey: 'c2', year:  2010 }, 
-		FIN : {fillKey: 'c1', year:  2011 }, 
-		EST : {fillKey: 'c2', year:  2011 }, 
-		ESP : {fillKey: 'c2', year:  2011 }, 
-		PRT : {fillKey: 'c2', year:  2011 }, 
-		AUT : {fillKey: 'c2', year:  2012 }, 
-		SVK : {fillKey: 'c2', year:  2012 }, 
-		HUN : {fillKey: 'c2', year:  2012 }, 
-		RUS : {fillKey: 'c2', year:  2012 }, 
-		SWE : {fillKey: 'c2', year:  2012 }, 
-		SVN : {fillKey: 'c2', year:  2013 }, 
-		LVA : {fillKey: 'c2', year:  2013 }, 
-		NLD : {fillKey: 'c2', year:  2013 }, 
-		NOR : {fillKey: 'c2', year:  2014 }, 
-		GRC : {fillKey: 'c2', year:  2014 }, 
-		TUR : {fillKey: 'c2', year:  2014 }, 
-		FRA : {fillKey: 'c2', year:  2014 }, 
-		ITA : {fillKey: 'c2', year:  2014 }, 
-		CHE : {fillKey: 'c2', year:  2014 }, 
-		BEL : {fillKey: 'c2', year:  2014 }, 
-		DEU : {fillKey: 'c2', year:  2015 }, 
-		CZE : {fillKey: 'c2', year:  2015 }
+          	IND : {fillKey: 'lived' }
         }
       })
       
       map.legend();
 
       var special_data = {};
-      special_data.now = { 
-                 AUS: {fillKey: 'c2'},
-                 CAN: {fillKey: 'c1'}
-      }
+      special_data[1987] = { IND: {fillKey: 'lived'} }
+      special_data[2002] = { NPL: {fillKey: 'visited'} }
+      special_data[2009] = { SGP: {fillKey: 'visited'}, MYS: {fillKey: 'visited'}, HKG: {fillKey: 'visited'}, LAO: {fillKey: 'visited'}, MAC: {fillKey: 'visited'} }
+      special_data[2010] = { THA: {fillKey: 'visited'}, KHM: {fillKey: 'visited'} }
+      special_data[2011] = { FIN: {fillKey: 'lived'}, EST: {fillKey: 'visited'}, ESP: {fillKey: 'visited'}, PRT: {fillKey: 'visited'} }
+      special_data[2012] = { AUT: {fillKey: 'visited'}, SVK: {fillKey: 'visited'}, HUN: {fillKey: 'visited'}, RUS: {fillKey: 'visited'}, SWE: {fillKey: 'visited'} }
+      special_data[2013] = { SVN: {fillKey: 'visited'}, LVA: {fillKey: 'visited'}, NLD: {fillKey: 'visited'} }
+      special_data[2014] = { NOR: {fillKey: 'visited'}, GRC: {fillKey: 'visited'}, TUR: {fillKey: 'visited'}, FRA: {fillKey: 'visited'}, ITA: {fillKey: 'visited'}, CHE: {fillKey: 'visited'}, BEL: {fillKey: 'visited'} }
+      special_data[2015] = { DEU: {fillKey: 'visited'}, CZE: {fillKey: 'visited'} }
 
     // display output of slider
     $("[data-slider]")
@@ -86,15 +65,25 @@
     // lookout for slider events and update choropleth
     $("#slider").bind("slider:changed", function (event, data) {
         // The currently selected value of the slider
-         if(data.value == 2013) {
-             map.updateChoropleth({
-                 USA: {fillKey: 'c2'},
-                 CAN: '#0fa0fa'
-             });
+         if (data.value == 1987) {
+             map.updateChoropleth(special_data[1987]);
+         } else if (data.value == 2002) {
+             map.updateChoropleth(special_data[2002]);
+         } else if (data.value == 2009) {
+             map.updateChoropleth(special_data[2009]);
+         } else if (data.value == 2010) {
+             map.updateChoropleth(special_data[2010]);
+         } else if (data.value == 2011) {
+             map.updateChoropleth(special_data[2011]);
+         } else if (data.value == 2012) {
+             map.updateChoropleth(special_data[2012]);
+         } else if (data.value == 2013) {
+             map.updateChoropleth(special_data[2013]);
          } else if (data.value == 2014) {
-             map.updateChoropleth(special_data.now);
+             map.updateChoropleth(special_data[2014]);
+         } else if (data.value == 2015) {
+             map.updateChoropleth(special_data[2015]);
          } 
-         
     });
 
 
