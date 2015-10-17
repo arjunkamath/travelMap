@@ -40,8 +40,7 @@
 
       var special_data = {};
 
-      //special_data[1987] = { IND: {fillKey: 'lived'} }
-      special_data[2001] = { IND: {fillKey: 'lived'} }
+      special_data[1987] = { IND: {fillKey: 'lived'} }
       special_data[2002] = { NPL: {fillKey: 'visited'} }
       special_data[2009] = { SGP: {fillKey: 'visited'}, MYS: {fillKey: 'visited'}, HKG: {fillKey: 'visited'}, LAO: {fillKey: 'visited'}, MAC: {fillKey: 'visited'} }
       special_data[2010] = { THA: {fillKey: 'visited'}, KHM: {fillKey: 'visited'} }
@@ -68,9 +67,6 @@
    
     // lookout for slider events and update choropleth
     $("#slider").bind("slider:changed", function (event, data) {
-        // The currently selected value of the slider
-         if (data.value == 2001) {
-
              for (var year in special_data){
 		var int_year = parseInt(year, 10)
 		if (int_year > data.value){
@@ -79,128 +75,13 @@
 			map.updateChoropleth(special_data[int_year]);	
 		}
              }
-
-/*             map.updateChoropleth(special_data[2001]);
-             map.updateChoropleth(special_data[3002]);
-             map.updateChoropleth(special_data[3005]);
-             map.updateChoropleth(special_data[3009]);
-             map.updateChoropleth(special_data[3010]);
-             map.updateChoropleth(special_data[3011]);
-             map.updateChoropleth(special_data[3012]);
-             map.updateChoropleth(special_data[3013]);
-             map.updateChoropleth(special_data[3014]);
-             map.updateChoropleth(special_data[3015]);
-*/
-         } else if (data.value == 2002) {
-             map.updateChoropleth(special_data[2001]);
-             map.updateChoropleth(special_data[2002]);
-             map.updateChoropleth(special_data[3005]);
-             map.updateChoropleth(special_data[3009]);
-             map.updateChoropleth(special_data[3010]);
-             map.updateChoropleth(special_data[3011]);
-             map.updateChoropleth(special_data[3012]);
-             map.updateChoropleth(special_data[3013]);
-             map.updateChoropleth(special_data[3014]);
-             map.updateChoropleth(special_data[3015]);
-         } else if (data.value == 2005) {
-             map.updateChoropleth(special_data[2001]);
-             map.updateChoropleth(special_data[2002]);
-             map.updateChoropleth(special_data[2005]);
-             map.updateChoropleth(special_data[3009]);
-             map.updateChoropleth(special_data[3010]);
-             map.updateChoropleth(special_data[3011]);
-             map.updateChoropleth(special_data[3012]);
-             map.updateChoropleth(special_data[3013]);
-             map.updateChoropleth(special_data[3014]);
-             map.updateChoropleth(special_data[3015]);
-         } else if (data.value == 2009) {
-             map.updateChoropleth(special_data[2001]);
-             map.updateChoropleth(special_data[2002]);
-             map.updateChoropleth(special_data[2005]);
-             map.updateChoropleth(special_data[2009]);
-             map.updateChoropleth(special_data[3010]);
-             map.updateChoropleth(special_data[3011]);
-             map.updateChoropleth(special_data[3012]);
-             map.updateChoropleth(special_data[3013]);
-             map.updateChoropleth(special_data[3014]);
-             map.updateChoropleth(special_data[3015]);
-         } else if (data.value == 2010) {
-             map.updateChoropleth(special_data[2001]);
-             map.updateChoropleth(special_data[2002]);
-             map.updateChoropleth(special_data[2005]);
-             map.updateChoropleth(special_data[2009]);
-             map.updateChoropleth(special_data[2010]);
-             map.updateChoropleth(special_data[3011]);
-             map.updateChoropleth(special_data[3012]);
-             map.updateChoropleth(special_data[3013]);
-             map.updateChoropleth(special_data[3014]);
-             map.updateChoropleth(special_data[3015]);
-         } else if (data.value == 2011) {
-             map.updateChoropleth(special_data[2001]);
-             map.updateChoropleth(special_data[2002]);
-             map.updateChoropleth(special_data[2005]);
-             map.updateChoropleth(special_data[2009]);
-             map.updateChoropleth(special_data[2010]);
-             map.updateChoropleth(special_data[2011]);
-             map.updateChoropleth(special_data[3012]);
-             map.updateChoropleth(special_data[3013]);
-             map.updateChoropleth(special_data[3014]);
-             map.updateChoropleth(special_data[3015]);
-         } else if (data.value == 2012) {
-             map.updateChoropleth(special_data[2001]);
-             map.updateChoropleth(special_data[2002]);
-             map.updateChoropleth(special_data[2005]);
-             map.updateChoropleth(special_data[2009]);
-             map.updateChoropleth(special_data[2010]);
-             map.updateChoropleth(special_data[2011]);
-             map.updateChoropleth(special_data[2012]);
-             map.updateChoropleth(special_data[3013]);
-             map.updateChoropleth(special_data[3014]);
-             map.updateChoropleth(special_data[3015]);
-         } else if (data.value == 2013) {
-             map.updateChoropleth(special_data[2001]);
-             map.updateChoropleth(special_data[2002]);
-             map.updateChoropleth(special_data[2005]);
-             map.updateChoropleth(special_data[2009]);
-             map.updateChoropleth(special_data[2010]);
-             map.updateChoropleth(special_data[2011]);
-             map.updateChoropleth(special_data[2012]);
-             map.updateChoropleth(special_data[2013]);
-             map.updateChoropleth(special_data[3014]);
-             map.updateChoropleth(special_data[3015]);
-         } else if (data.value == 2014) {
-             map.updateChoropleth(special_data[2001]);
-             map.updateChoropleth(special_data[2002]);
-             map.updateChoropleth(special_data[2005]);
-             map.updateChoropleth(special_data[2009]);
-             map.updateChoropleth(special_data[2010]);
-             map.updateChoropleth(special_data[2011]);
-             map.updateChoropleth(special_data[2012]);
-             map.updateChoropleth(special_data[2013]);
-             map.updateChoropleth(special_data[2014]);
-             map.updateChoropleth(special_data[3015]);
-         } else if (data.value == 2015) {
-             map.updateChoropleth(special_data[2001]);
-             map.updateChoropleth(special_data[2002]);
-             map.updateChoropleth(special_data[2005]);
-             map.updateChoropleth(special_data[2009]);
-             map.updateChoropleth(special_data[2010]);
-             map.updateChoropleth(special_data[2011]);
-             map.updateChoropleth(special_data[2012]);
-             map.updateChoropleth(special_data[2013]);
-             map.updateChoropleth(special_data[2014]);
-             map.updateChoropleth(special_data[2015]);
-         } 
     });
 
-
+    window.addEventListener('resize', function() {
+    	map.resize();
+    });
       
-
-      window.addEventListener('resize', function() {
-        map.resize();
-      });
-      
-      map.legend();
+    map.legend();
 
     // display output of slider
     $("[data-slider]")
