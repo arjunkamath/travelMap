@@ -1,5 +1,7 @@
 .slider {
-  width: 80%;
+
+  margin: auto;
+  width: 90%;
 }
 
 .slider > .dragger {
