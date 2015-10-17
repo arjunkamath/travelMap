@@ -18,6 +18,9 @@
   </div>
  
      <script>
+      //defining default country colour
+      var defaultColor = '#d3d3d3';
+
       //basic map config with custom fills, mercator projection
       var map = new Datamap({
         scope: 'world',
@@ -26,27 +29,19 @@
         projection: 'mercator',
         height: 500,
         fills: {
-          defaultFill: '#d3d3d3',
+          defaultFill: defaultColor,
           visited: 'green',
           lived: 'blue'
         },
-        
         data: {
           	IND : {fillKey: 'lived' }
         }
       });
 
-	window.addEventListener('resize', function() {
-	        map.resize();
-	    });
-      
-      map.legend();
-
       var special_data = {};
+
       special_data[1987] = { IND: {fillKey: 'lived'} }
       special_data[2002] = { NPL: {fillKey: 'visited'} }
-      special_data[3333] = { USA: {fillKey: 'visited'} }
-      special_data[2005] = $.extend(special_data[3333], special_data[2002]);
       special_data[2009] = { SGP: {fillKey: 'visited'}, MYS: {fillKey: 'visited'}, HKG: {fillKey: 'visited'}, LAO: {fillKey: 'visited'}, MAC: {fillKey: 'visited'} }
       special_data[2010] = { THA: {fillKey: 'visited'}, KHM: {fillKey: 'visited'} }
       special_data[2011] = { FIN: {fillKey: 'lived'}, EST: {fillKey: 'visited'}, ESP: {fillKey: 'visited'}, PRT: {fillKey: 'visited'} }
@@ -54,6 +49,39 @@
       special_data[2013] = { SVN: {fillKey: 'visited'}, LVA: {fillKey: 'visited'}, NLD: {fillKey: 'visited'} }
       special_data[2014] = { NOR: {fillKey: 'visited'}, GRC: {fillKey: 'visited'}, TUR: {fillKey: 'visited'}, FRA: {fillKey: 'visited'}, ITA: {fillKey: 'visited'}, CHE: {fillKey: 'visited'}, BEL: {fillKey: 'visited'} }
       special_data[2015] = { DEU: {fillKey: 'visited'}, CZE: {fillKey: 'visited'} }
+
+
+    var MAX_AGE = 1000;
+    function fillDefault(){	
+        for (var year in special_data){
+		var int_year = parseInt(year, 10)
+                var equival_def_fill_year = int_year + MAX_AGE;
+                special_data[equival_def_fill_year] = $.extend(true, {}, special_data[year]);
+
+		for (var country in special_data[equival_def_fill_year]){
+			special_data[equival_def_fill_year][country].fillKey = 'defaultFill';
+		}
+        }
+    }
+    fillDefault();
+   
+    // lookout for slider events and update choropleth
+    $("#slider").bind("slider:changed", function (event, data) {
+             for (var year in special_data){
+		var int_year = parseInt(year, 10)
+		if (int_year > data.value){
+			map.updateChoropleth(special_data[MAX_AGE + int_year]);			
+		} else {
+			map.updateChoropleth(special_data[int_year]);	
+		}
+             }
+    });
+
+    window.addEventListener('resize', function() {
+    	map.resize();
+    });
+      
+    map.legend();
 
     // display output of slider
     $("[data-slider]")
@@ -68,33 +96,6 @@
         .nextAll(".output:first")
           .html(data.value);
     });
-
-    // lookout for slider events and update choropleth
-    $("#slider").bind("slider:changed", function (event, data) {
-        // The currently selected value of the slider
-         if (data.value == 1987) {
-             map.updateChoropleth(special_data[1987]);
-         } else if (data.value == 2002) {
-             map.updateChoropleth(special_data[2002]);
-         } else if (data.value == 2005) {
-             map.updateChoropleth(special_data[2005]);
-         } else if (data.value == 2009) {
-             map.updateChoropleth(special_data[2009]);
-         } else if (data.value == 2010) {
-             map.updateChoropleth(special_data[2010]);
-         } else if (data.value == 2011) {
-             map.updateChoropleth(special_data[2011]);
-         } else if (data.value == 2012) {
-             map.updateChoropleth(special_data[2012]);
-         } else if (data.value == 2013) {
-             map.updateChoropleth(special_data[2013]);
-         } else if (data.value == 2014) {
-             map.updateChoropleth(special_data[2014]);
-         } else if (data.value == 2015) {
-             map.updateChoropleth(special_data[2015]);
-         } 
-    });
-
 
     
 
