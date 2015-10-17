@@ -51,52 +51,36 @@
       special_data[2014] = { NOR: {fillKey: 'visited'}, GRC: {fillKey: 'visited'}, TUR: {fillKey: 'visited'}, FRA: {fillKey: 'visited'}, ITA: {fillKey: 'visited'}, CHE: {fillKey: 'visited'}, BEL: {fillKey: 'visited'} }
       special_data[2015] = { DEU: {fillKey: 'visited'}, CZE: {fillKey: 'visited'} }
 
-      //special_data[3333] = { USA: {fillKey: 'visited'} }
-      //special_data[2005] = $.extend(special_data[3333], special_data[2002]);
-
-     // clearing future countries
 
     var MAX_AGE = 1000;
     function fillDefault(){	
         for (var year in special_data){
 		var int_year = parseInt(year, 10)
                 var equival_def_fill_year = int_year + MAX_AGE;
-		console.log(equival_def_fill_year);
                 special_data[equival_def_fill_year] = $.extend(true, {}, special_data[year]);
 
 		for (var country in special_data[equival_def_fill_year]){
-			//console.log(special_data[year][country].fillKey);
 			special_data[equival_def_fill_year][country].fillKey = 'defaultFill';
-			//console.log(special_data[equival_def_fill_year][country].fillKey);			
 		}
         }
     }
     fillDefault();
    
-    // clearing future countries
-    /*function clearFuture(this_year){	
-        console.log('CLEARING FOR ' + this_year);
-        for (var year in special_data){
-            if (year > this_year){
-                console.log(year);
-		for (var country in special_data[year]){
-			console.log(special_data[year][country].fillKey);
-			special_data[year][country].fillKey = 'defaultFill';
-			console.log(special_data[year][country].fillKey);			
-		}
-            }
-            else {
-            	continue;
-            }
-        }
-    }*/
-
-
     // lookout for slider events and update choropleth
     $("#slider").bind("slider:changed", function (event, data) {
         // The currently selected value of the slider
          if (data.value == 2001) {
-             map.updateChoropleth(special_data[2001]);
+
+             for (var year in special_data){
+		var int_year = parseInt(year, 10)
+		if (int_year > data.value){
+			map.updateChoropleth(special_data[MAX_AGE + int_year]);			
+		} else {
+			map.updateChoropleth(special_data[int_year]);	
+		}
+             }
+
+/*             map.updateChoropleth(special_data[2001]);
              map.updateChoropleth(special_data[3002]);
              map.updateChoropleth(special_data[3005]);
              map.updateChoropleth(special_data[3009]);
@@ -106,6 +90,7 @@
              map.updateChoropleth(special_data[3013]);
              map.updateChoropleth(special_data[3014]);
              map.updateChoropleth(special_data[3015]);
+*/
          } else if (data.value == 2002) {
              map.updateChoropleth(special_data[2001]);
              map.updateChoropleth(special_data[2002]);
